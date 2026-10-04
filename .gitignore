@@ -1,0 +1,65 @@
+# Maven
+target/
+dependency-reduced-pom.xml
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse / VS Code
+.classpath
+.project
+.settings/
+.vscode/
+
+# Local test server
+run/
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build artifacts
+*.jar
+*.class
+!.mvn/wrapper/maven-wrapper.jar
+
+# Local test server data (Paper)
+plugins/
+world/
+world_nether/
+world_the_end/
+server.properties
+eula.txt
+bukkit.yml
+spigot.yml
+paper-*.yml
+config/
+cache/
+libraries/
+versions/
+usercache.json
+whitelist.json
+ops.json
+banned-*.json
+
+# Secrets and local config
+.env
+*.local
+.copilot/
+
+# Temp files
+*.tmp
+*.bak
+*.swp

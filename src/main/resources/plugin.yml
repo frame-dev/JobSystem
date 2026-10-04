@@ -1,0 +1,95 @@
+name: JobSystem
+version: '${version}'
+
+main: ch.framedev.jobSystem.JobSystem
+api-version: '1.21'
+load: POSTWORLD
+
+authors: [ FrameDev ]
+website: https://framedev.ch
+
+commands:
+  job:
+    description: Manage and view your job
+    usage: /job help
+    aliases: [jobs]
+
+permissions:
+  jobsystem.*:
+    description: All JobSystem permissions
+    default: op
+    children:
+      jobsystem.use: true
+      jobsystem.info.others: true
+      jobsystem.reload: true
+      jobsystem.boost: true
+      jobsystem.bypass.cooldown: true
+      jobsystem.admin: true
+  jobsystem.use:
+    description: Basic player commands
+    default: true
+    children:
+      jobsystem.list: true
+      jobsystem.join: true
+      jobsystem.leave: true
+      jobsystem.info: true
+      jobsystem.benefits: true
+      jobsystem.top: true
+      jobsystem.lang: true
+      jobsystem.prestige: true
+  jobsystem.prestige:
+    description: /job prestige
+    default: true
+  jobsystem.boost:
+    description: /job boost
+    default: op
+  jobsystem.top:
+    description: /job top
+    default: true
+  jobsystem.lang:
+    description: /job lang
+    default: true
+  jobsystem.reload:
+    description: /job reload
+    default: op
+  jobsystem.bypass.cooldown:
+    description: Ignore the rejoin cooldown
+    default: op
+  jobsystem.list:
+    description: /job list
+    default: true
+  jobsystem.join:
+    description: /job join <job>
+    default: true
+  jobsystem.leave:
+    description: /job leave
+    default: true
+  jobsystem.info:
+    description: /job info
+    default: true
+  jobsystem.info.others:
+    description: /job info <player>
+    default: op
+  jobsystem.benefits:
+    description: /job benefits [job]
+    default: true
+  jobsystem.admin:
+    description: All /job admin subcommands
+    default: op
+    children:
+      jobsystem.admin.set: true
+      jobsystem.admin.reset: true
+      jobsystem.admin.addxp: true
+      jobsystem.admin.setlevel: true
+  jobsystem.admin.set:
+    description: /job admin set
+    default: op
+  jobsystem.admin.reset:
+    description: /job admin reset
+    default: op
+  jobsystem.admin.addxp:
+    description: /job admin addxp
+    default: op
+  jobsystem.admin.setlevel:
+    description: /job admin setlevel
+    default: op

@@ -1,0 +1,175 @@
+# ============================================================
+#  JobSystem configuration  (run /job reload after editing)
+#  Texts live in plugins/JobSystem/lang/*.yml
+# ============================================================
+
+# ---- Language ----
+default-language: en          # en, de, fr, es or any file in the lang folder
+use-client-language: true     # use the player's client language if available
+
+# ---- General ----
+rejoin-cooldown-seconds: 300  # wait time before joining a new job after leaving
+xp-multiplier: 1.0            # multiplier applied to all job XP
+disabled-worlds: []           # worlds where jobs give no XP and no perks
+top-size: 10                  # entries shown by /job top
+
+# ---- Anti-exploit ----
+ignore-player-placed: true    # player-placed blocks give no XP / bonus drops when broken
+builder-unique-blocks: true   # Builders earn XP once per block position
+placed-block-cache-size: 100000  # how many placed block positions are remembered (memory only)
+
+# ---- Levels ----
+# XP needed to advance from level N to N+1. The number of entries is the max level.
+# Add or remove entries to change the max level (e.g. 5 entries = max level 5).
+levels:
+  xp-required: [100, 200, 300, 400, 500, 650, 800, 1000, 1250, 1500,
+                1800, 2100, 2500, 3000, 3600, 4300, 5100, 6000, 7000, 8000,
+                9200, 10500, 12000, 13500, 15000, 17000, 19000, 21500, 24000, 27000]
+
+# ---- Prestige ----
+# At max level a player can use /job prestige: level and XP reset, but they keep the job,
+# gain a permanent XP bonus and can run reward commands.
+prestige:
+  enabled: true
+  max-prestige: 10
+  xp-bonus-per-prestige: 0.10   # +10% XP per prestige
+  # Console commands run on prestige. Placeholders: {player} {job} {prestige}
+  commands: []
+
+# ---- Milestone rewards ----
+# Console commands run when a player reaches a level. Placeholders: {player} {job} {level} {prestige}
+# broadcast: true announces the milestone to everyone (translated per player).
+rewards:
+  levels:
+    10: { broadcast: true, commands: [] }
+    20: { broadcast: true, commands: [] }
+    30: { broadcast: true, commands: [] }
+  # Job specific rewards, example:
+  # jobs:
+  #   Miner:
+  #     15: { commands: ["give {player} diamond 3"] }
+  jobs: {}
+
+# ---- Jobs ----
+# <Name>: id must be unique. Set enabled: false to hide a job (existing players keep their data).
+# perks: false disables the level perks for that job (XP is still earned).
+# Built-in behaviour exists for the nine names below. Extra jobs can be added but have no actions.
+jobs:
+  Fisher:     { id: 1, enabled: true, perks: true }
+  Butcher:    { id: 2, enabled: true, perks: true }
+  Hunter:     { id: 3, enabled: true, perks: true }
+  Farmer:     { id: 4, enabled: true, perks: true }
+  Miner:      { id: 5, enabled: true, perks: true }
+  Lumberjack: { id: 6, enabled: true, perks: true }
+  Builder:    { id: 7, enabled: true, perks: true }
+  Blacksmith: { id: 8, enabled: true, perks: true }
+  Brewer:     { id: 9, enabled: true, perks: true }
+
+# ---- XP per action ----
+xp:
+  fisher: 10
+  hunter: 8
+  butcher: 6
+  farmer: 4
+  miner-ore: 8
+  miner-stone: 1
+  lumberjack: 3
+  builder: 0.5
+  blacksmith: 5
+  brewer: 5
+
+# ---- What counts as an action ----
+actions:
+  farmer-require-mature: true
+  miner-ore-suffixes: [_ORE]
+  miner-ore-materials: [ANCIENT_DEBRIS]
+  miner-stone-materials: [STONE, DEEPSLATE, COBBLESTONE]   # XP only, no perks
+  lumberjack-suffixes: [_LOG, _STEM]
+  lumberjack-materials: []
+  blacksmith-gear-regex: "(IRON|GOLDEN|DIAMOND|NETHERITE|CHAINMAIL)_(SWORD|AXE|PICKAXE|SHOVEL|HOE|HELMET|CHESTPLATE|LEGGINGS|BOOTS)"
+  blacksmith-extra-materials: [SHIELD, ANVIL]
+  # Entity type names (e.g. ZOMBIE). Empty = all hostile mobs / all animals.
+  hunter-entities: []
+  butcher-entities: []
+
+# ---- Perks ----
+perks:
+  enabled: true
+  chance-per-level: 0.025    # main bonus chance (double drops, extra fish, extra potion, ...)
+  max-chance: 0.75          # upper limit for chances (1.0 = 100%)
+  bonus-xp:                  # vanilla XP orbs for Fisher/Hunter/Butcher/Farmer/Miner
+    start-level: 4
+    per-level: 2             # amount = (level - start + 1) * per-level
+    max: 30
+  haste:                     # Miner / Lumberjack. tiers: from-level: Haste tier
+    tiers: { 3: 1, 6: 2, 9: 3, 15: 4, 22: 5, 28: 6 }
+    base-ticks: 60
+    ticks-per-level: 20
+  food:                      # Butcher (per kill) / Farmer (when eating)
+    start-level: 3
+    level-divisor: 2         # extra hunger = level / divisor
+    max: 10
+  tool-saver:                # chance a job tool (pickaxe, axe, hoe, rod, sword) loses no durability
+    start-level: 10
+    chance-per-level: 0.03
+    max-chance: 0.5
+  fisher:
+    fast-bite:
+      start-level: 4
+      reduction-per-level: 0.07
+      max-reduction: 0.5
+      min-wait-ticks: 20
+    treasure:                # chance for a bonus treasure item per catch
+      start-level: 12
+      chance-per-level: 0.01
+      max-chance: 0.25
+      items: ["EMERALD:1-2", "GOLD_INGOT:1-3", "IRON_INGOT:1-3", "LAPIS_LAZULI:2-6", "DIAMOND:1-1", "NAUTILUS_SHELL:1-1"]
+  farmer:
+    auto-replant:            # replants harvested crops for free
+      start-level: 8
+      crops: [WHEAT, CARROTS, POTATOES, BEETROOTS, NETHER_WART]
+  hunter:
+    damage-per-level: 0.04
+    max-damage: 1.0
+    kill-speed:              # Speed after killing a monster
+      start-level: 6
+      base-ticks: 60
+      ticks-per-level: 10
+  miner:
+    night-vision:            # Night Vision after mining ore
+      start-level: 12
+      base-ticks: 200
+      ticks-per-level: 20
+  builder:
+    refund-per-level: 0.03   # chance a placed block is not used up
+    fall:
+      start-level: 6
+      reduction-per-level: 0.15
+      immune-level: 10
+  blacksmith:
+    unbreaking-max: 3
+    levels-per-tier: 3
+    mending:
+      start-level: 8
+      chance-per-level: 0.10
+  brewer:
+    regen:
+      start-level: 6
+      seconds-per-level: 3
+      max-seconds: 30
+
+# ---- Display ----
+display:
+  action-bar: true
+  bar-length: 20
+  bar-char: "|"
+  bar-filled-color: green
+  bar-empty-color: dark_gray
+
+level-up:
+  title: true
+  chat-perks: true           # list the perks in chat on level-up
+  sound: true
+  sound-name: entity.player.levelup
+  sound-volume: 1.0
+  sound-pitch: 1.0
